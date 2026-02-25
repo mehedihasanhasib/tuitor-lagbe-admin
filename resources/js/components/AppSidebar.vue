@@ -1,177 +1,185 @@
 <script setup lang="ts">
-import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-} from "@tabler/icons-vue"
+import type { SidebarProps } from "@/components/ui/sidebar";
 
-import NavDocuments from '@/components/NavDocuments.vue'
-import NavMain from '@/components/NavMain.vue'
-import NavSecondary from '@/components/NavSecondary.vue'
-import NavUser from '@/components/NavUser.vue'
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar'
+    AudioWaveform,
+    BookOpen,
+    Bot,
+    Command,
+    Frame,
+    GalleryVerticalEnd,
+    LayoutDashboard,
+    Map,
+    PieChart,
+    Settings2,
+    SquareTerminal,
+} from "lucide-vue-next";
+import NavMain from "@/components/NavMain.vue";
+import NavProjects from "@/components/NavProjects.vue";
+import NavUser from "@/components/NavUser.vue";
+import TeamSwitcher from "@/components/TeamSwitcher.vue";
 
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarRail,
+} from "@/components/ui/sidebar";
+
+const props = withDefaults(defineProps<SidebarProps>(), {
+    collapsible: "icon",
+});
+
+// This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      icon: IconDashboard,
+    user: {
+        name: "shadcn",
+        email: "m@example.com",
+        avatar: "/avatars/shadcn.jpg",
     },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
+    teams: [
         {
-          title: "Active Proposals",
-          url: "#",
+            name: "Acme Inc",
+            logo: GalleryVerticalEnd,
+            plan: "Enterprise",
         },
         {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
+            name: "Acme Corp.",
+            logo: AudioWaveform,
+            plan: "Startup",
         },
         {
-          title: "Archived",
-          url: "#",
+            name: "Evil Corp.",
+            logo: Command,
+            plan: "Free",
         },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
+    ],
+    navMain: [
         {
-          title: "Active Proposals",
-          url: "#",
+            title: "Dashboard",
+            url: "#",
+            icon: LayoutDashboard,
+            isActive: true,
         },
         {
-          title: "Archived",
-          url: "#",
+            title: "Playground",
+            url: "#",
+            icon: SquareTerminal,
+            isActive: true,
+            items: [
+                {
+                    title: "History",
+                    url: "#",
+                },
+                {
+                    title: "Starred",
+                    url: "#",
+                },
+                {
+                    title: "Settings",
+                    url: "#",
+                },
+            ],
         },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileDescription,
-    },
-  ],
-}
+        {
+            title: "Models",
+            url: "#",
+            icon: Bot,
+            items: [
+                {
+                    title: "Genesis",
+                    url: "#",
+                },
+                {
+                    title: "Explorer",
+                    url: "#",
+                },
+                {
+                    title: "Quantum",
+                    url: "#",
+                },
+            ],
+        },
+        {
+            title: "Documentation",
+            url: "#",
+            icon: BookOpen,
+            items: [
+                {
+                    title: "Introduction",
+                    url: "#",
+                },
+                {
+                    title: "Get Started",
+                    url: "#",
+                },
+                {
+                    title: "Tutorials",
+                    url: "#",
+                },
+                {
+                    title: "Changelog",
+                    url: "#",
+                },
+            ],
+        },
+        {
+            title: "Settings",
+            url: "#",
+            icon: Settings2,
+            items: [
+                {
+                    title: "General",
+                    url: "#",
+                },
+                {
+                    title: "Team",
+                    url: "#",
+                },
+                {
+                    title: "Billing",
+                    url: "#",
+                },
+                {
+                    title: "Limits",
+                    url: "#",
+                },
+            ],
+        },
+    ],
+    projects: [
+        {
+            name: "Design Engineering",
+            url: "#",
+            icon: Frame,
+        },
+        {
+            name: "Sales & Marketing",
+            url: "#",
+            icon: PieChart,
+        },
+        {
+            name: "Travel",
+            url: "#",
+            icon: Map,
+        },
+    ],
+};
 </script>
 
 <template>
-  <Sidebar collapsible="offcanvas">
-    <SidebarHeader>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton
-            as-child
-            class="data-[slot=sidebar-menu-button]:!p-1.5"
-          >
-            <a href="#">
-              <IconInnerShadowTop class="!size-5" />
-              <span class="text-base font-semibold">Acme Inc.</span>
-            </a>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    </SidebarHeader>
-    <SidebarContent>
-      <NavMain :items="data.navMain" />
-      <NavDocuments :items="data.documents" />
-      <NavSecondary :items="data.navSecondary" class="mt-auto" />
-    </SidebarContent>
-    <SidebarFooter>
-      <NavUser :user="data.user" />
-    </SidebarFooter>
-  </Sidebar>
+    <Sidebar v-bind="props">
+        <SidebarHeader>
+            <TeamSwitcher :teams="data.teams" />
+        </SidebarHeader>
+        <SidebarContent>
+            <NavMain :items="data.navMain" />
+            <NavProjects :projects="data.projects" />
+        </SidebarContent>
+        <SidebarFooter>
+            <NavUser :user="data.user" />
+        </SidebarFooter>
+        <SidebarRail />
+    </Sidebar>
 </template>

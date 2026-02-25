@@ -1,57 +1,85 @@
 <script setup lang="ts">
-import type { Component } from "vue"
-import { IconCirclePlusFilled, IconMail } from "@tabler/icons-vue"
-
-import { Button } from '@/components/ui/button'
+import type { LucideIcon } from "lucide-vue-next";
+import { ChevronRight } from "lucide-vue-next";
 import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar'
-
-interface NavItem {
-  title: string
-  url: string
-  icon?: Component
-}
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
+    SidebarGroup,
+    SidebarGroupLabel,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuSubButton,
+    SidebarMenuSubItem,
+} from "@/components/ui/sidebar";
 
 defineProps<{
-  items: NavItem[]
-}>()
+    items: {
+        title: string;
+        url: string;
+        icon?: LucideIcon;
+        isActive?: boolean;
+        items?: {
+            title: string;
+            url: string;
+        }[];
+    }[];
+}>();
 </script>
 
 <template>
-  <SidebarGroup>
-    <SidebarGroupContent class="flex flex-col gap-2">
-      <SidebarMenu>
-        <SidebarMenuItem class="flex items-center gap-2">
-          <SidebarMenuButton
-            tooltip="Quick Create"
-            class="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
-          >
-            <IconCirclePlusFilled />
-            <span>Quick Create</span>
-          </SidebarMenuButton>
-          <Button
-            size="icon"
-            class="size-8 group-data-[collapsible=icon]:opacity-0"
-            variant="outline"
-          >
-            <IconMail />
-            <span class="sr-only">Inbox</span>
-          </Button>
-        </SidebarMenuItem>
-      </SidebarMenu>
-      <SidebarMenu>
-        <SidebarMenuItem v-for="item in items" :key="item.title">
-          <SidebarMenuButton :tooltip="item.title">
-            <component :is="item.icon" v-if="item.icon" />
-            <span>{{ item.title }}</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    </SidebarGroupContent>
-  </SidebarGroup>
+    <SidebarGroup>
+        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarMenu>
+            <template v-for="item in items" :key="item.title">
+                <Collapsible
+                    v-if="item.items && item.items.length > 0"
+                    as-child
+                    :default-open="item.isActive"
+                    class="group/collapsible"
+                >
+                    <SidebarMenuItem>
+                        <CollapsibleTrigger as-child>
+                            <SidebarMenuButton :tooltip="item.title">
+                                <component :is="item.icon" v-if="item.icon" />
+                                <span>{{ item.title }}</span>
+                                <ChevronRight
+                                    class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                                />
+                            </SidebarMenuButton>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                            <SidebarMenuSub>
+                                <SidebarMenuSubItem
+                                    v-for="subItem in item.items"
+                                    :key="subItem.title"
+                                >
+                                    <SidebarMenuSubButton as-child>
+                                        <a :href="subItem.url">
+                                            <span>{{ subItem.title }}</span>
+                                        </a>
+                                    </SidebarMenuSubButton>
+                                </SidebarMenuSubItem>
+                            </SidebarMenuSub>
+                        </CollapsibleContent>
+                    </SidebarMenuItem>
+                </Collapsible>
+
+                <SidebarMenuItem v-else>
+                    <SidebarMenuButton
+                        :tooltip="item.title"
+                        class="hover:bg-primary hover:text-white"
+                        :class="{ 'text-white bg-primary': item.isActive }"
+                    >
+                        <component :is="item.icon" v-if="item.icon" />
+                        <span>{{ item.title }}</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </template>
+        </SidebarMenu>
+    </SidebarGroup>
 </template>
