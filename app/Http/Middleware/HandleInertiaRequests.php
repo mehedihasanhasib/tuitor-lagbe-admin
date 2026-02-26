@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -37,7 +38,18 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            //
+            'auth' => [
+                'user' => Auth::user()
+            ],
+            'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'message' => [
+                'success' => fn() => $request->session()->get('message-success'),
+                'error' => fn() => $request->session()->get('message-error'),
+            ],
+            'path' => $request->path(),
+            'location' => $request->url(),
+            'query' => $request->query(),
+            'csrfToken' => csrf_token()
         ];
     }
 }
