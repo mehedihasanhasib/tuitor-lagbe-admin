@@ -7,6 +7,7 @@ import {
     FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import { useForm } from "@inertiajs/vue3";
 
@@ -39,9 +40,9 @@ const submit = () => {
                         placeholder="m@example.com"
                         required
                     />
-                    <FieldError v-if="loginForm.errors.email">{{
-                        loginForm.errors.email
-                    }}</FieldError>
+                    <FieldError v-if="loginForm.errors.email">
+                        {{ loginForm.errors.email }}
+                    </FieldError>
                 </Field>
                 <Field>
                     <div class="flex items-center">
@@ -61,7 +62,10 @@ const submit = () => {
                     />
                 </Field>
                 <Field>
-                    <Button type="submit"> Login </Button>
+                    <Button type="submit" :disabled="loginForm.processing">
+                        <Spinner v-if="loginForm.processing" />
+                        <span v-else>Login </span>
+                    </Button>
                 </Field>
             </FieldGroup>
         </form>

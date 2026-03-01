@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -7,6 +8,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return inertia('Dashboard');
     });
+
+    Route::resource('/subjects', SubjectController::class)->except(['create', 'show']);
 });
 
 require __DIR__ . '/auth.php';

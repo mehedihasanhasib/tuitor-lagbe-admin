@@ -16,6 +16,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { Link } from "@inertiajs/vue3";
 
 defineProps<{
     items: {
@@ -70,14 +71,16 @@ defineProps<{
                 </Collapsible>
 
                 <SidebarMenuItem v-else>
-                    <SidebarMenuButton
-                        :tooltip="item.title"
-                        class="hover:bg-primary hover:text-white"
-                        :class="{ 'text-white bg-primary': item.isActive }"
-                    >
-                        <component :is="item.icon" v-if="item.icon" />
-                        <span>{{ item.title }}</span>
-                    </SidebarMenuButton>
+                    <Link :href="item.url">
+                        <SidebarMenuButton
+                            :tooltip="item.title"
+                            class="hover:bg-primary hover:text-white"
+                            :class="{ 'text-white bg-primary': item.isActive }"
+                        >
+                            <component :is="item.icon" v-if="item.icon" />
+                            <span>{{ item.title }}</span>
+                        </SidebarMenuButton>
+                    </Link>
                 </SidebarMenuItem>
             </template>
         </SidebarMenu>
