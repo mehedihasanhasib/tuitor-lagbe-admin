@@ -74,7 +74,7 @@ defineProps<{
                     <Link :href="item.url">
                         <SidebarMenuButton
                             :tooltip="item.title"
-                            class="hover:bg-primary hover:text-white"
+                            class="hover:bg-primary hover:text-white cursor-pointer"
                             :class="{ 'text-white bg-primary': item.isActive }"
                         >
                             <component :is="item.icon" v-if="item.icon" />

@@ -9,7 +9,7 @@ Route::middleware(['auth'])->group(function () {
         return inertia('Dashboard');
     });
 
-    Route::resource('/subjects', SubjectController::class)->except(['create', 'show']);
+    Route::resource('/subjects', SubjectController::class)->except(['create', 'show', 'edit']);
 });
 
 require __DIR__ . '/auth.php';
