@@ -17,7 +17,9 @@ class SubjectController extends Controller
 
         $subjects = Subject::query()
             ->when(isset($queryParams['q']), function ($subject) use ($queryParams) {
-                $subject->where('name', 'like', '&' . $queryParams['q'] . '%');
+                $search = '%' . $queryParams['q'] . '%';
+                return $subject->where('name', 'like', $search)
+                    ->orWhere('slug', 'like', $search);
             })
             ->orderBy('id', 'desc')
             ->paginate();
@@ -67,6 +69,6 @@ class SubjectController extends Controller
         // }
         $subject->delete();
 
-        return redirect()->route('subjects.index')->with('success', 'Subject deleted successfully');
+        return back()->with('success', 'Subject deleted successfully');
     }
 }

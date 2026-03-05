@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import FlashMessage from "@/components/FlashMessage.vue";
 import PaginationLinks from "@/components/PaginationLinks.vue";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,9 +41,11 @@ import AppLayout from "@/layouts/AppLayout.vue";
 import { PaginatedData } from "@/types/paginated-data";
 import { Subject } from "@/types/subject";
 import { router, useForm, usePage } from "@inertiajs/vue3";
-import { Edit, MoreHorizontal, Trash2 } from "lucide-vue-next";
-import { ref, watch } from "vue";
+import { Edit, FilterX, MoreHorizontal, Trash2 } from "lucide-vue-next";
+import { computed, ref, watch } from "vue";
 import { toast } from "vue-sonner";
+import { debounce, debounceSearch } from "@/lib/utils";
+import { useFilter } from "@/composables/useFilter";
 
 interface Props {
     subjects: PaginatedData<Subject>;
@@ -55,6 +56,10 @@ const { subjects } = defineProps<Props>();
 const mode = ref<Mode>("create");
 const selectedSubject = ref<Subject>();
 const deleteSubjectModal = useModal<Subject>();
+const page = usePage();
+const hasQueryParams = computed(() => {
+    return Object.keys(page.props.query).length > 0;
+});
 
 const subjectForm = useForm({
     name: "",
@@ -207,13 +212,24 @@ const cancelEdit = () => {
                     <h1 class="text-xl font-bold">Subjects List</h1>
                 </CardHeader>
                 <CardContent class="space-y-2">
-                    <div>
+                    <div class="w-full flex justify-between gap-2">
                         <Input
+                            :model-value="$page.props.query.q"
+                            @update:model-value="debounceSearch({ q: $event })"
                             id="search"
-                            type="text"
+                            type="search"
                             placeholder="Search subject"
                             required
+                            class="flex-1"
                         />
+                        <Button
+                            v-if="hasQueryParams"
+                            @click="router.get('/subjects')"
+                            variant="destructive"
+                            title="Clear Filters"
+                        >
+                            <FilterX />
+                        </Button>
                     </div>
                     <Table>
                         <TableHeader>

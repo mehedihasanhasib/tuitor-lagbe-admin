@@ -24,13 +24,6 @@ export function useFilter() {
             {
                 preserveScroll: true,
                 preserveState: true,
-                only: [
-                    "tuitions",
-                    "path",
-                    "successMessage",
-                    "errorMessage",
-                    "query",
-                ],
             },
         );
     };
