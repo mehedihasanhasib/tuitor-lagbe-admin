@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PasswordInput from "@/components/PasswordInput.vue";
 import { Button } from "@/components/ui/button";
 import {
     Field,
@@ -54,12 +55,17 @@ const submit = () => {
                             Forgot your password?
                         </a>
                     </div>
-                    <Input
+                    <PasswordInput
+                        v-model="loginForm.password"
+                        id="password"
+                        required
+                    />
+                    <!-- <Input
                         v-model="loginForm.password"
                         id="password"
                         type="password"
                         required
-                    />
+                    /> -->
                 </Field>
                 <Field>
                     <Button type="submit" :disabled="loginForm.processing">
